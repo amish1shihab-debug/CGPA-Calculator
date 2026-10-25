@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Free CGPA calculator. Calculate semester GPA and cumulative CGPA using course credits and grade points." />
+  <title>CGPA Calculator — Free GPA & CGPA Tool</title>
+  <style>
+    :root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#68738a;--line:#e4e9f2;--primary:#4f46e5;--primary2:#4338ca;--soft:#eef2ff;--green:#087f5b;--red:#b42318;--shadow:0 14px 40px rgba(27,39,79,.08)}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top left,#e9edff 0,transparent 32%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);line-height:1.5}
+    .wrap{width:min(980px,calc(100% - 32px));margin:0 auto;padding:42px 0 56px}.hero{text-align:center;margin-bottom:28px}.pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:999px;font-size:12px;font-weight:700;color:var(--primary);letter-spacing:.04em}.dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.1;letter-spacing:-.04em;margin:16px 0 10px}.hero p{color:var(--muted);margin:0 auto;max-width:580px;font-size:16px}
+    .layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.85fr);gap:20px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:24px}.card h2{font-size:18px;letter-spacing:-.02em;margin:0}.sub{font-size:13px;color:var(--muted);margin:5px 0 20px}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px}.btn{border:0;border-radius:11px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer;transition:.15s}.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary2);transform:translateY(-1px)}.btn-light{background:var(--soft);color:var(--primary)}.btn-light:hover{background:#e0e7ff}.btn-plain{background:transparent;color:var(--muted);padding:8px}.btn-plain:hover{color:var(--red);background:#fff1f0}
+    .course-head,.course{display:grid;grid-template-columns:minmax(0,1fr) 68px 92px 92px 32px;gap:7px;align-items:center}.mode-wrap{margin:0 0 16px}.mode-wrap label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.mode-select{margin-bottom:7px}.mode-help{font-size:12px;color:var(--muted);margin:0 0 12px}.course.equal-mode{grid-template-columns:minmax(0,1fr) 92px 92px 32px}.course-head.equal-mode{grid-template-columns:minmax(0,1fr) 92px 92px 32px}.course.equal-mode .credit,.course-head.equal-mode .credit-heading{display:none}.course-head{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;padding:0 2px 9px}.course{margin-bottom:10px}.field{width:100%;min-width:0;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 10px;font:inherit;font-size:14px;color:var(--text);outline:none}.field:focus{border-color:#818cf8;box-shadow:0 0 0 3px #4f46e51a}.field::placeholder{color:#a0a9ba}.remove{width:34px;height:38px;border:0;background:#f8fafc;color:#8992a5;border-radius:9px;font-size:20px;cursor:pointer}.remove:hover{background:#fff1f0;color:var(--red)}.add-row{width:100%;border:1px dashed #c8cffa;background:#fafaff;color:var(--primary);border-radius:12px;padding:12px;font:inherit;font-weight:700;cursor:pointer;margin-top:4px}.add-row:hover{background:var(--soft)}.actions{display:flex;gap:10px;margin-top:18px}.actions .btn{flex:1}
+    .result{background:linear-gradient(145deg,#3730a3,#6366f1);color:#fff;border-radius:17px;padding:22px;position:relative;overflow:hidden}.result:after{content:"";position:absolute;width:170px;height:170px;border:1px solid #ffffff22;border-radius:50%;right:-65px;top:-70px;box-shadow:0 0 0 24px #ffffff0a,0 0 0 48px #ffffff08}.result .eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#dfe3ff;font-weight:800}.big-number{font-size:54px;line-height:1.1;letter-spacing:-.05em;font-weight:800;margin:9px 0 5px;position:relative;z-index:1}.result small{color:#e0e7ff}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;position:relative;z-index:1}.metric{background:#ffffff17;border:1px solid #ffffff20;border-radius:12px;padding:12px}.metric span{display:block;font-size:11px;color:#e0e7ff;margin-bottom:3px}.metric strong{font-size:18px}.side h3{font-size:14px;margin:22px 0 8px}.hint{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}.hint:last-child{border:0}.hint b{color:var(--text)}.hint-icon{flex:0 0 26px;height:26px;border-radius:8px;background:var(--soft);color:var(--primary);display:grid;place-items:center;font-weight:800}.formula{padding:13px;background:#f8f9ff;border:1px solid #e7eaff;border-radius:12px;font-size:13px;color:var(--muted)}.formula strong{color:var(--text)}.note{font-size:12px;color:var(--muted);margin-top:16px}.status{font-size:12px;margin-top:10px;color:var(--green);min-height:18px}.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}.hidden{display:none!important}
+    @media(max-width:760px){.wrap{padding-top:28px}.layout{grid-template-columns:1fr}.card{padding:18px}.side{order:2}.course-head,.course{grid-template-columns:minmax(0,1fr) 55px 76px 76px 27px;gap:5px}.course.equal-mode,.course-head.equal-mode{grid-template-columns:minmax(0,1fr) 76px 76px 27px}.field{padding:9px 5px;font-size:12px}.remove{width:27px}.big-number{font-size:48px}}
+    @media(max-width:420px){.course-head,.course{grid-template-columns:minmax(0,1fr) 48px 65px 65px 25px;gap:4px}.course.equal-mode,.course-head.equal-mode{grid-template-columns:minmax(0,1fr) 65px 65px 25px}.course-head{font-size:9px;letter-spacing:.03em}.field{font-size:11px;padding:9px 4px}.remove{width:25px}.card{padding:14px}.topline{align-items:flex-start}.topline .btn{padding:9px 10px;font-size:12px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <span class="pill"><span class="dot"></span> FREE STUDENT TOOL</span>
+      <h1>CGPA Calculator</h1>
+      <p>Enter marks obtained and each subject’s maximum marks (100, 200, 300, or any total). Get an estimated CGPA with weighted or unweighted calculation.</p>
+    </header>
+    <div class="layout">
+      <section class="card" aria-labelledby="courses-title">
+        <div class="topline"><h2 id="courses-title">Your subjects</h2><button class="btn btn-light" id="addTop" type="button">＋ Add subject</button></div>
+        <p class="sub">Enter the marks you scored and the maximum marks for each subject. Choose whether credits should affect the result.</p>
+        <div class="mode-wrap"><label for="calcMode">CGPA calculation type</label><select id="calcMode" class="field mode-select"><option value="equal">Unweighted CGPA — all subjects count equally</option><option value="weighted">Weighted CGPA — subjects count by credits</option></select><p class="mode-help" id="modeHelp">Unweighted: every subject has the same importance, regardless of its credits.</p></div>
+        <div class="course-head" aria-hidden="true"><span>Subject</span><span class="credit-heading">Credits</span><span>Marks scored</span><span>Total marks</span><span></span></div>
+        <div id="courses"></div>
+        <button class="add-row" id="addBottom" type="button">＋ Add another subject</button>
+        <div class="actions"><button class="btn btn-primary" id="calculate" type="button">Calculate CGPA</button><button class="btn btn-light" id="reset" type="button">Reset</button></div>
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+        <p class="note">This tool converts each subject’s marks percentage to an estimated 10-point grade point (percentage ÷ 10), then averages those points. Colleges may use grade bands or a different official formula, so this is an estimate unless it matches your institution’s rules.</p>
+      </section>
+      <aside class="card side">
+        <div class="result" aria-live="polite">
+          <div class="eyebrow">Your CGPA</div>
+          <div class="big-number" id="cgpa">—</div>
+          <small id="resultCaption">Enter your subjects to calculate</small>
+          <div class="result-grid"><div class="metric"><span>Semester GPA</span><strong id="gpa">—</strong></div><div class="metric"><span>Total credits</span><strong id="credits">0</strong></div></div>
+        </div>
+        <h3>How it works</h3>
+        <div class="formula" id="formula"><strong>Estimated CGPA =</strong> Average of each subject’s (marks scored ÷ total marks × 10)</div>
+        <div class="hint"><span class="hint-icon">1</span><span><b>Enter subjects</b><br>Use the subject name to keep your list organised.</span></div>
+        <div class="hint" id="creditHint"><span class="hint-icon">2</span><span><b>Credits are optional</b><br>Switch to the credit-weighted method if you know each subject’s credits.</span></div>
+        <div class="hint"><span class="hint-icon">3</span><span><b>Enter marks</b><br>For example, if you scored 156 out of 200, enter 156 as marks scored and 200 as total marks.</span></div>
+        <h3>Percentage conversion</h3>
+        <p class="sub" style="margin-bottom:8px">There is no universal CGPA-to-percentage formula. Your institution's official rule should be used.</p>
+        <label for="conversion" style="font-size:13px;font-weight:700;display:block;margin-bottom:7px">Optional multiplier</label>
+        <div style="display:flex;gap:8px;align-items:center"><input class="field" id="conversion" type="number" min="0" max="100" step="0.01" placeholder="e.g. 9.5" aria-label="CGPA to percentage multiplier"/><span style="font-size:13px;color:var(--muted);white-space:nowrap">× CGPA</span></div>
+        <div style="margin-top:10px;font-size:13px;color:var(--muted)">Estimated percentage: <strong id="percentage" style="color:var(--text)">—</strong></div>
+      </aside>
+    </div>
+    <footer class="footer">Free CGPA Calculator · Calculations happen in your browser.</footer>
+  </main>
+<script>
+(() => {
+  const courses = document.getElementById('courses');
+  const status = document.getElementById('status');
+  const mode = document.getElementById('calcMode');
+  const modeHelp = document.getElementById('modeHelp');
+  const courseHead = document.querySelector('.course-head');
+  let subjectCount = 0;
+
+  function escapeAttr(value) {
+    return String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function addSubject(name = '', credit = '', scored = '', total = '') {
+    subjectCount++;
+    const row = document.createElement('div');
+    row.className = 'course';
+    row.innerHTML = `
+      <input class="field subject" type="text" maxlength="60" placeholder="Subject ${subjectCount}" aria-label="Subject name" value="${escapeAttr(name)}">
+      <input class="field credit" type="number" min="0.01" max="100" step="0.01" placeholder="e.g. 3" aria-label="Subject credits (weighted mode)" value="${escapeAttr(credit)}">
+      <input class="field scored" type="number" min="0" step="any" placeholder="e.g. 156" aria-label="Marks scored" value="${escapeAttr(scored)}">
+      <input class="field total" type="number" min="1" step="any" placeholder="e.g. 200" aria-label="Total possible marks" value="${escapeAttr(total)}">
+      <button class="remove" type="button" aria-label="Remove subject" title="Remove subject">×</button>`;
+    row.querySelector('.remove').addEventListener('click', () => {
+      row.remove();
+      if (!courses.children.length) addSubject();
+      calculate(false);
+    });
+    row.querySelectorAll('input').forEach(input => input.addEventListener('input', () => { status.textContent = ''; }));
+    courses.appendChild(row);
+    applyMode();
+  }
+
+  function applyMode() {
+    const equal = mode.value === 'equal';
+    [...courses.children].forEach(row => row.classList.toggle('equal-mode', equal));
+    courseHead.classList.toggle('equal-mode', equal);
+    document.getElementById('formula').innerHTML = equal
+      ? '<strong>Estimated unweighted CGPA =</strong> Average of subject grade points'
+      : '<strong>Estimated weighted CGPA =</strong> Sum (subject grade point × credits) ÷ total credits';
+    modeHelp.textContent = equal
+      ? 'Unweighted: every subject counts equally, regardless of its credits.'
+      : 'Weighted: each subject’s grade point is multiplied by its credits. Enter the official credits for each subject.';
+    document.getElementById('creditHint').innerHTML = equal
+      ? '<span class="hint-icon">2</span><span><b>Credits not needed</b><br>Every subject has equal weight in this estimate.</span>'
+      : '<span class="hint-icon">2</span><span><b>Enter credits</b><br>Use the credit value assigned by your institution.</span>';
+    calculate(false);
+  }
+
+  function calculate(showStatus = true) {
+    const rows = [...courses.querySelectorAll('.course')];
+    const equal = mode.value === 'equal';
+    let totalCredits = 0, weightedPoints = 0, sumPoints = 0, validCount = 0, errors = [];
+
+    rows.forEach((row, i) => {
+      const creditText = row.querySelector('.credit').value.trim();
+      const scoredText = row.querySelector('.scored').value.trim();
+      const totalText = row.querySelector('.total').value.trim();
+      if (scoredText === '' && totalText === '' && creditText === '') return;
+      if (scoredText === '' || totalText === '') {
+        errors.push(`Subject ${i + 1}: enter both marks scored and total marks.`); return;
+      }
+      const scored = Number(scoredText);
+      const total = Number(totalText);
+      if (!Number.isFinite(scored) || scored < 0) {
+        errors.push(`Subject ${i + 1}: marks scored must be 0 or higher.`); return;
+      }
+      if (!Number.isFinite(total) || total <= 0) {
+        errors.push(`Subject ${i + 1}: total marks must be greater than 0.`); return;
+      }
+      if (scored > total) {
+        errors.push(`Subject ${i + 1}: marks scored cannot exceed total marks.`); return;
+      }
+
+      let credit = 1;
+      if (!equal) {
+        if (creditText === '') { errors.push(`Subject ${i + 1}: enter credits, or switch to “Unweighted CGPA”.`); return; }
+        credit = Number(creditText);
+        if (!Number.isFinite(credit) || credit <= 0 || credit > 100) {
+          errors.push(`Subject ${i + 1}: credits must be greater than 0 and no more than 100.`); return;
+        }
+      }
+
+      // Estimate a 10-point grade by converting each subject's percentage to a 0–10 scale.
+      const gradePoint = (scored / total) * 10;
+      sumPoints += gradePoint;
+      weightedPoints += gradePoint * credit;
+      totalCredits += equal ? 1 : credit;
+      validCount++;
+    });
+
+    if (errors.length) {
+      if (showStatus) status.textContent = errors[0];
+      status.style.color = 'var(--red)';
+      return;
+    }
+
+    if (!validCount) {
+      document.getElementById('cgpa').textContent = '—';
+      document.getElementById('gpa').textContent = '—';
+      document.getElementById('credits').textContent = equal ? 'Not used' : '—';
+      document.getElementById('resultCaption').textContent = 'Enter marks to calculate';
+      updatePercentage(null);
+      if (showStatus) { status.textContent = 'Enter marks scored and total marks for at least one subject.'; status.style.color = 'var(--red)'; }
+      return;
+    }
+
+    const result = equal ? sumPoints / validCount : weightedPoints / totalCredits;
+    document.getElementById('cgpa').textContent = result.toFixed(2);
+    document.getElementById('gpa').textContent = result.toFixed(2);
+    document.getElementById('credits').textContent = equal ? 'Not used' : Number(totalCredits.toFixed(2)).toString();
+    document.getElementById('resultCaption').textContent = equal
+      ? `${validCount} subject${validCount === 1 ? '' : 's'} · unweighted estimate`
+      : `${validCount} subject${validCount === 1 ? '' : 's'} · weighted estimate`;
+    updatePercentage(result);
+    if (showStatus) {
+      status.textContent = 'Estimated CGPA calculated from marks. Your college may use a different grade conversion formula.';
+      status.style.color = 'var(--muted)';
+    }
+  }
+
+  function updatePercentage(cgpa) {
+    const conversionField = document.getElementById('conversion');
+    const multiplier = Number(conversionField.value);
+    const output = document.getElementById('percentage');
+    if (cgpa === null || conversionField.value.trim() === '' || !Number.isFinite(multiplier) || multiplier <= 0) {
+      output.textContent = '—'; return;
+    }
+    output.textContent = `${(cgpa * multiplier).toFixed(2)}%`;
+  }
+
+  document.getElementById('addTop').addEventListener('click', () => addSubject());
+  document.getElementById('addBottom').addEventListener('click', () => addSubject());
+  document.getElementById('calculate').addEventListener('click', () => calculate(true));
+  mode.addEventListener('change', applyMode);
+  document.getElementById('conversion').addEventListener('input', () => {
+    const value = document.getElementById('cgpa').textContent;
+    updatePercentage(value === '—' ? null : Number(value));
+  });
+  document.getElementById('reset').addEventListener('click', () => {
+    courses.innerHTML = '';
+    subjectCount = 0;
+    addSubject(); addSubject(); addSubject();
+    mode.value = 'equal';
+    document.getElementById('conversion').value = '';
+    document.getElementById('cgpa').textContent = '—';
+    document.getElementById('gpa').textContent = '—';
+    document.getElementById('credits').textContent = 'Not used';
+    document.getElementById('resultCaption').textContent = 'Enter marks to calculate';
+    document.getElementById('percentage').textContent = '—';
+    status.textContent = '';
+    applyMode();
+  });
+
+  addSubject(); addSubject(); addSubject();
+  applyMode();
+})();
+</script>
+</body>
+</html>
